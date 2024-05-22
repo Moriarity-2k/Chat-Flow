@@ -17,12 +17,26 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { useCallback, useMemo } from "react";
 
-import ButtonEdge from "./ButtonEdge.tsx";
-import CustomNode from "./CustomNode.tsx";
+import ButtonEdge from "./CustomElements/ButtonEdge.tsx";
+import CustomNode from "./CustomElements/CustomNode.tsx";
 
+/**
+ * Default viewport configuration for the ReactFlow instance.
+ */
 const defaultViewport = { x: 0, y: 0, zoom: 1 };
+
+/**
+ * Denotes the custom Edge and configures it with ReactFlow instance
+ */
 const edgeTypes = { buttonEdge: ButtonEdge };
 
+/**
+ * React component rendering the ReactFlow instance with custom nodes and edges.
+ *
+ * @prop {Node[]} nodes - nodes to be displayed in the flow.
+ * @prop {function} setNodes - Default by ReactFlow => Function to update the nodes state.
+ * @prop {function} createNodeHandler - Function to handle "Create Node" event.
+ */
 interface IReactFlowRender {
 	nodes: Node[];
 	setNodes: React.Dispatch<
@@ -33,7 +47,6 @@ interface IReactFlowRender {
 		clientY: number | number
 	) => void;
 }
-
 function ReactFlowRender({
 	nodes,
 	setNodes,
@@ -41,22 +54,33 @@ function ReactFlowRender({
 }: IReactFlowRender) {
 	const [edges, setEdges] = useEdgesState<Edge[]>([]);
 
+	/**
+	 * memoized function defining custom Nodes
+	 */
 	const nodeTypes = useMemo(() => ({ nameChanger: CustomNode }), []);
 
+	/**
+	 * Callback function to update existing edges based on connection changes.
+	 */
 	const onEdgeUpdate = useCallback(
 		(oldEdge: Edge, newConnection: Connection) =>
 			setEdges((els) => updateEdge(oldEdge, newConnection, els)),
 		[setEdges]
 	);
+
+    /**
+     * Default by reactflow , to change the edge connections
+     */
 	const onConnect: OnConnect = useCallback(
 		(params) => {
-			// console.log({ params });
-			// params.type = `buttonEdge`;
 			setEdges((els) => addEdge(params, els));
 		},
 		[setEdges]
 	);
 
+    /**
+     * Callbacks to update node and edge states 
+     */
 	const onNodesChange: OnNodesChange = useCallback(
 		(changes) => setNodes((nds: Node[]) => applyNodeChanges(changes, nds)),
 		[setNodes]
@@ -72,14 +96,11 @@ function ReactFlowRender({
 				className="bg-white hover:cursor-wait w-[80%] react-flow"
 				onDragOver={(e) => {
 					e.preventDefault();
-					// console.log(e.clientX);
-					// console.log(e.dataTransfer.getData("text/plain"));
 				}}
 				onDrop={(e) => {
 					e.preventDefault();
-					console.log(e.clientX);
+					// console.log(e.clientX);
 					createNodeHandler(e.clientX, e.clientY);
-					// console.log(e.target);
 				}}
 			>
 				<ReactFlow

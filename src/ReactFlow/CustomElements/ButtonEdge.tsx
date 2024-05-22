@@ -7,6 +7,13 @@ import {
 	useReactFlow,
 } from "reactflow";
 
+/**
+ * CustomEdge component represents a custom edge in a React Flow diagram.
+ * It provides the functionality to render and interact with edges, including edge remove button.
+ *
+ * @param {EdgeProps} props - The properties of the edge => default from reactFlow
+ * @returns {JSX.Element} - return the custom edge edge.
+ */
 export default function CustomEdge({
 	id,
 	sourceX,
@@ -17,7 +24,7 @@ export default function CustomEdge({
 	targetPosition,
 	style = {},
 	markerEnd,
-} : EdgeProps) {
+}: EdgeProps) {
 	const { setEdges } = useReactFlow();
 	const [edgePath, labelX, labelY] = getBezierPath({
 		sourceX,
@@ -28,6 +35,9 @@ export default function CustomEdge({
 		targetPosition,
 	});
 
+	/**
+	 * Handles edge click event, removing the edge from the flow.
+	 */
 	const onEdgeClick = () => {
 		setEdges((edges) => edges.filter((edge) => edge.id !== id));
 	};
@@ -36,11 +46,7 @@ export default function CustomEdge({
 
 	return (
 		<>
-			<BaseEdge
-				path={edgePath}
-				markerEnd={markerEnd}
-				style={style}
-			/>
+			<BaseEdge path={edgePath} markerEnd={markerEnd} style={style} />
 			<EdgeLabelRenderer>
 				<div
 					style={{

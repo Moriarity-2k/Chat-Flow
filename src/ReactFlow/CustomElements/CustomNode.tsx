@@ -1,10 +1,19 @@
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { Handle, Position } from "reactflow";
 
+/**
+ * A custom ReactFlow node component representing a message node.
+ *
+ * @prop {string} id - Unique identifier for the node.
+ * @prop {object} data - Node data containing:
+ *   - `label: number` - The message content (number for this example).
+ *   - `setSettingOpen: () => void` - to toggle the settings and create node.
+ *   - `setId: (id: string) => void` - Function to set the node's ID to change the label when user click this node.
+ */
 export default function CustomNode(props: {
 	id: string;
 	data: {
-		label: number;
+		label: string;
 		setSettingOpen: () => void;
 		setId: (id: string) => void;
 	};

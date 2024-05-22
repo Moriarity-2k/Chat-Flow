@@ -1,25 +1,26 @@
 import { useState } from "react";
 import ReactFlowMainComponent from "./ReactFlow/ReactFlowMainComponent";
+import Navbar from "./components/Navbar";
 
 function App() {
+	/**
+	 * toggles the settings panel and create Node ( button / drag-drop ) panel
+	 */
 	const [openSettings, setOpenSetting] = useState<boolean>(false);
 
-	const setSettingOpen = () => setOpenSetting(true);
+	/**
+	 * Utility function to toggle panel's
+	 * @param open : defined which panel should be displayed
+	 */
+	const setSettingOpen = (open: boolean) => setOpenSetting(open);
 
 	return (
 		<div className="h-screen w-screen bg-white font-mono">
 			{/* Navbar */}
-			<div className="h-[4.5rem] bg-gray-100 flex items-center justify-end">
-				{openSettings && (
-					<button
-						onClick={() => setOpenSetting(false)}
-						className="text-black float-right mr-20 font-semibold text-sm py-2 px-8 w-max border-blue-500 bg-white border-2 rounded-md hover:cursor-pointer"
-					>
-						Save Changes
-					</button>
-				)}
-			</div>
-
+			<Navbar
+				openSettings={openSettings}
+				setOpenSetting={setOpenSetting}
+			/>
 			{/* Main component */}
 			<ReactFlowMainComponent
 				setSettingOpen={setSettingOpen}
