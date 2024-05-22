@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
 	BaseEdge,
 	EdgeLabelRenderer,
+	EdgeProps,
 	getBezierPath,
 	useReactFlow,
 } from "reactflow";
@@ -16,7 +17,7 @@ export default function CustomEdge({
 	targetPosition,
 	style = {},
 	markerEnd,
-}) {
+} : EdgeProps) {
 	const { setEdges } = useReactFlow();
 	const [edgePath, labelX, labelY] = getBezierPath({
 		sourceX,
